@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #17162E;
+}
+
+h1 {
+    font: 600 36px 'Kumbh Sans';
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.container {
+    margin-inline: auto;
+    width: min(90%, 90rem);
+}
+
+header {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.input_field {
+    position: relative;
+}
+
+#pesquisar {
+    background: #ffffff34;
+    padding: 20px 24px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    font: 500 18px 'Kumbh Sans';
+    color: #ffffff;
+    width: 630px;
+}
+
+#pesquisar::placeholder {
+    color: #8A8A8A;
+}
+
+.input_field img {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+}
+
+.checkbox_field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox_field input {
+    accent-color:  #706EA8;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox_field label {
+    font: 600 18px 'Kumbh Sans';
+    color: #FFFFFF;
+}
+
+section {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.movie_item {
+    background-color: #1D1C3B;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 24px 30px;
+    border-radius: 8px;
+    box-shadow: 
+    0.3335185647010803px 0.24931815266609192px 2.4224610328674316px 0px #00000007,
+    1.4366953372955322px 1.0739859342575073px 4.567187309265137px 0px #0000000C,
+    3.4634618759155273px 2.5890731811523438px 7.6376953125px 0px #00000010,
+    32.838748931884766px 24.548248291015625px 79px 0px #00000026;
+}
+
+.movie_image {
+    aspect-ratio: 1;
+    height: 140px;
+    clip-path: circle(50% at 50% 50%);
+
+    background-image: url("./assets/batman-cover.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.movie_infoBox {
+    flex-basis: 100%;
+}
+
+.movie_title {
+    font: 500 18px 'Kumbh Sans';
+    line-height: 30px;
+    color: #FFFFFF;
+    margin-bottom: 24px;
+}
+
+.movie_actions {
+    display: flex;
+    gap: 32px;
+}
+
+.movie_actionBox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.movie_actionBox span {
+    font: 400 18px 'Kumbh Sans';
+    color: #FFFFFF;
+}
+
+.movie_description p {
+    font: 400 16px 'Kumbh Sans';
+    line-height: 30px;
+    color: #ACACAC;
+}
