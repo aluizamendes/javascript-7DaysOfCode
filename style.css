@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --background-clr: #17162E;
+    --item-clr: #1D1C3B;
+    --white-clr: #FFFFFF;
+    --accent-clr: #706EA8;
+    --grey-clr: #ACACAC;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,12 +15,13 @@
 }
 
 body {
-    background-color: #17162E;
+    background-color: var(--background-clr);
+    padding-bottom: 5%;
 }
 
 h1 {
     font: 600 36px 'Kumbh Sans';
-    color: #FFFFFF;
+    color: var(--white-clr);
     text-align: center;
 }
 
@@ -41,7 +50,7 @@ header {
     outline: none;
     border-radius: 8px;
     font: 500 18px 'Kumbh Sans';
-    color: #ffffff;
+    color: var(--white-clr);
     width: 630px;
 }
 
@@ -62,14 +71,14 @@ header {
 }
 
 .checkbox_field input {
-    accent-color:  #706EA8;
+    accent-color: var(--accent-clr);
     width: 16px;
     height: 16px;
 }
 
 .checkbox_field label {
     font: 600 18px 'Kumbh Sans';
-    color: #FFFFFF;
+    color: var(--white-clr);
 }
 
 section {
@@ -80,7 +89,7 @@ section {
 }
 
 .movie_item {
-    background-color: #1D1C3B;
+    background-color: var(--item-clr);
     display: flex;
     align-items: center;
     gap: 40px;
@@ -115,7 +124,7 @@ section {
 .movie_title {
     font: 500 18px 'Kumbh Sans';
     line-height: 30px;
-    color: #FFFFFF;
+    color: var(--white-clr);
     margin-bottom: 24px;
 }
 
@@ -132,7 +141,7 @@ section {
 
 .movie_actionBox span {
     font: 400 18px 'Kumbh Sans';
-    color: #FFFFFF;
+    color: var(--white-clr);
 }
 
 .movie_description {
@@ -142,5 +151,5 @@ section {
 .movie_description p {
     font: 400 16px 'Kumbh Sans';
     line-height: 30px;
-    color: #ACACAC;
+    color: var(--grey-clr);
 }
