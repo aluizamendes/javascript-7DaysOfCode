@@ -94,18 +94,22 @@ section {
 }
 
 .movie_image {
-    aspect-ratio: 1;
+    flex-shrink: 0;
+    width: 140px;
     height: 140px;
-    clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);    
+    overflow: hidden;
+}
 
-    background-image: url("./assets/batman-cover.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+.movie_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .movie_infoBox {
-    flex-basis: 100%;
+    flex-basis: 50%;
 }
 
 .movie_title {
@@ -129,6 +133,10 @@ section {
 .movie_actionBox span {
     font: 400 18px 'Kumbh Sans';
     color: #FFFFFF;
+}
+
+.movie_description {
+    flex-basis: 100%;
 }
 
 .movie_description p {
