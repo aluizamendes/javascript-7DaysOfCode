@@ -64,11 +64,12 @@ async function showPopularMovies() {
 
 function renderMovies(movie) {
     let imagePath = "https://image.tmdb.org/t/p/w500/";
+    let posterPath = movie.poster_path == null ? "assets/poster-not-found.png" : imagePath + movie.poster_path;
 
     movieList.innerHTML +=  `
     <div class="movie_item">
         <div class="movie_image">
-            <img src="${imagePath}${movie.poster_path}" alt="">
+            <img src="${posterPath}" alt="Poster do filme ${movie.title}">
         </div>
         <div class="movie_infoBox">
             <p class="movie_title">${movie.title} (${ formatReleaseYear(movie.release_date) })</p>
