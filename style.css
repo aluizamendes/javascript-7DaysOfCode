@@ -144,6 +144,12 @@ section {
     color: var(--white-clr);
 }
 
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 .movie_description {
     flex-basis: 100%;
 }
