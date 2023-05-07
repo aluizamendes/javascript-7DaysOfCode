@@ -148,6 +148,10 @@ button {
     background-color: transparent;
     border: none;
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .movie_description {
