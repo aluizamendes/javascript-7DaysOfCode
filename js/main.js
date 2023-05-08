@@ -1,7 +1,7 @@
 import { getPopularMoviesAPI, getSearchedMovieAPI } from "./apiFunctions.js";
 
 const movieList = document.getElementById("movieList");
-const inputPesquisar = document.getElementById("pesquisar");
+const searchInput = document.getElementById("pesquisar");
 const checkboxShowFavorites = document.getElementById("mostrarFavoritos");
 const favoritedMovies =  JSON.parse(localStorage.getItem("favoritos")) || [];
 
@@ -36,10 +36,15 @@ function favoriteMovieAction(arrMovies) {
         btn.addEventListener("click", (event) => {
 
             // define variáveis dos itens
-            let buttonEl = event.target.id == "btnFavoritar" ? event.target : event.target.parentElement;
-            let heartIcon = btn.querySelector("img");            
-            let favoritarText = heartIcon.nextElementSibling;
+            const buttonEl = event.target.id == "btnFavoritar" ? event.target : event.target.parentElement;
+            const heartIcon = btn.querySelector("img");            
+            const favoritarText = heartIcon.nextElementSibling;
             let movieNameText = buttonEl.closest('.movie_infoBox').firstElementChild.textContent;
+
+            const favoriteState = {
+                favorited: "assets/heart-fill-icon.svg",
+                notFavorited: "assets/heart-icon.svg"
+            }
 
             // array da string do nome e retirar o ano (ultimo elemento)
             let movieNameSplit = movieNameText.split(" ");
@@ -47,11 +52,11 @@ function favoriteMovieAction(arrMovies) {
             movieNameText = movieNameSplit.join(" ");
 
             // corresponde ao index do filme clicado
-            let index = findMovieIndex(arrMovies, movieNameText); 
-            let movieSelected = arrMovies[index];
+            const index = findMovieIndex(arrMovies, movieNameText); 
+            const movieSelected = arrMovies[index];
 
             // checa se o filme esta na lista dos favoritos
-            let isFavorite = checkMovieIsFavorite(movieSelected.id);
+            const isFavorite = checkMovieIsFavorite(movieSelected.id);           
 
             // se estiver nos favoritos remove, se não, adiciona
             if (isFavorite) {
@@ -59,7 +64,7 @@ function favoriteMovieAction(arrMovies) {
                 // definir a div do filme correspondente atraves do id
                 const movieItem = document.querySelector(`[data-id="${movieSelected.id}"]`);
 
-                heartIcon.src = "assets/heart-icon.svg";
+                heartIcon.src = favoriteState.notFavorited;
                 favoritarText.textContent = "Favoritar";
 
                 // se usuário estiver na lista de favoritos, remove div do filme
@@ -67,14 +72,14 @@ function favoriteMovieAction(arrMovies) {
                 if (isShowingFavorites) movieItem.remove();
 
                 // achar o index dentro da lista de favoritos correspondente ao titulo do filme
-                let indexMovieRemove = findMovieIndex(favoritedMovies, movieNameText); 
+                const indexMovieRemove = findMovieIndex(favoritedMovies, movieNameText); 
                 
                 // deleta do array e do local storage
                 favoritedMovies.splice(indexMovieRemove, 1);
                 saveFavoritesToLocalStorage(favoritedMovies);
 
             } else {
-                heartIcon.src = "assets/heart-fill-icon.svg";
+                heartIcon.src = favoriteState.favorited;
                 favoritarText.textContent = "Desfavoritar";
     
                 // adiciona o filme correspondente na lista de favoritos
@@ -93,30 +98,40 @@ function renderMovies(movie) {
     const imagePath = "https://image.tmdb.org/t/p/w500/";
     const posterPath = movie.poster_path == null ? "assets/poster-not-found.png" : imagePath + movie.poster_path;
     const isFavorite = checkMovieIsFavorite(movie.id);
-    const movieItemId = movie.id;
+
+    const movieData = {
+        movieID: movie.id,
+        moviePoster: posterPath,
+        movieTitle: movie.title,
+        movieYear: formatReleaseYear(movie.release_date),
+        movieRating: movie.vote_average.toFixed(1),
+        movieDescription: showDescription(movie.overview),
+        heartIconState: isFavorite ? "assets/heart-fill-icon.svg" : "assets/heart-icon.svg",
+        favoriteText: isFavorite ? "Desfavoritar" : "Favoritar"
+    }
 
     movieList.innerHTML +=  `
-    <div class="movie_item" data-id="${movieItemId}">
+    <div class="movie_item" data-id="${movieData.movieID}">
         <div class="movie_image">
-            <img src="${posterPath}" alt="Poster do filme ${movie.title}">
+            <img src="${movieData.moviePoster}" alt="Poster do filme ${movieData.movieTitle}">
         </div>
         <div class="movie_infoBox">
-            <p class="movie_title">${movie.title} (${ formatReleaseYear(movie.release_date) })</p>
+            <p class="movie_title">${movieData.movieTitle} (${movieData.movieYear})</p>
             <div class="movie_actions">
                 <div class="movie_actionBox">
                     <img src="assets/star-icon.svg">
-                    <span id="movieRating">${movie.vote_average}</span>
+                    <span id="movieRating">${movieData.movieRating}</span>
                 </div>
                 <div class="movie_actionBox" >
                     <button id="btnFavoritar" class="btn-favoritar">                        
-                        <img id="heartIcon" src="${isFavorite ? "assets/heart-fill-icon.svg" : "assets/heart-icon.svg"}">
-                        <span>${isFavorite ? "Desfavoritar" : "Favoritar"}</span>
+                        <img id="heartIcon" src="${movieData.heartIconState}">
+                        <span>${movieData.favoriteText}</span>
                     </button>
                 </div>
             </div>
         </div>
         <div class="movie_description">
-            <p>${ showDescription(movie.overview) }</p>
+            <p>${movieData.movieDescription}</p>
         </div>
     </div>
     `
@@ -128,7 +143,7 @@ function updateMovieList(movies) {
 }
 
 async function showSearchedMovies() {
-    const searchedMovies = await getSearchedMovieAPI(inputPesquisar.value);
+    const searchedMovies = await getSearchedMovieAPI(searchInput.value);
     cleanMovieList();
     updateMovieList(searchedMovies);  
 }
@@ -152,12 +167,12 @@ function handleShowFavoriteMovies(event) {
 }
 
 // pesquisar e exibir filmes
-inputPesquisar.addEventListener("keyup", async (event) => { 
+searchInput.addEventListener("keyup", async (event) => { 
 
     if (event.key == "Enter") {        
         await showSearchedMovies();
 
-        if (inputPesquisar.value == "") {
+        if (searchInput.value == "") {
             cleanMovieList();
             showPopularMovies();
         }
@@ -169,7 +184,7 @@ inputPesquisar.addEventListener("keyup", async (event) => {
 checkboxShowFavorites.addEventListener("click", handleShowFavoriteMovies);
 
 window.addEventListener("load", async () => {
-    
+
     // consume a api quando a janela é carregada
     const popularMovies = await getPopularMoviesAPI();
 
