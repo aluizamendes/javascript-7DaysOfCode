@@ -2,6 +2,7 @@ import { apiKey } from "./apiKey.js";
 
 const movieList = document.getElementById("movieList");
 const inputPesquisar = document.getElementById("pesquisar");
+const checkboxMostrarFavoritos = document.getElementById("mostrarFavoritos");
 const favoritedMovies =  JSON.parse(localStorage.getItem("favoritos")) || [];
 
 async function getPopularMoviesAPI() {
@@ -53,7 +54,7 @@ function favoriteMovieAction(arrMovies) {
         btn.addEventListener("click", (event) => {
 
             let buttonEl = event.target.id == "btnFavoritar" ? event.target : event.target.parentElement;
-            let heartIcon = btn.querySelector("img");
+            let heartIcon = btn.querySelector("img");            
             let favoritarText = heartIcon.nextElementSibling;
             let movieNameText = buttonEl.closest('.movie_infoBox').firstElementChild.textContent;
 
@@ -71,11 +72,17 @@ function favoriteMovieAction(arrMovies) {
             let isFavorite = checkMovieIsFavorite(movieSelected.id);
 
             if (isFavorite) {
+                const movieItem = document.querySelector(`[data-id="${movieSelected.id}"]`);
+
                 heartIcon.src = "assets/heart-icon.svg";
                 favoritarText.textContent = "Favoritar";
 
                 // achar o index dentro da lista de favoritos correspondente ao titulo do filme
-                let indexMovieRemove = favoritedMovies.findIndex(movie => movie.title == movieSelected.title);         
+                let indexMovieRemove = favoritedMovies.findIndex(movie => movie.title == movieSelected.title); 
+                
+                // se estiver mostrando a lista de favoritos, remove div do filme na hora
+                const isShowingFavorites = checkboxMostrarFavoritos.checked;
+                if (isShowingFavorites) movieItem.remove();
 
                 // deleta do array e do local storage
                 favoritedMovies.splice(indexMovieRemove, 1);
@@ -118,9 +125,10 @@ function renderMovies(movie) {
     let imagePath = "https://image.tmdb.org/t/p/w500/";
     let posterPath = movie.poster_path == null ? "assets/poster-not-found.png" : imagePath + movie.poster_path;
     let isFavorite = checkMovieIsFavorite(movie.id);
+    let movieItemId = movie.id;
 
     movieList.innerHTML +=  `
-    <div class="movie_item">
+    <div class="movie_item" data-id="${movieItemId}">
         <div class="movie_image">
             <img src="${posterPath}" alt="Poster do filme ${movie.title}">
         </div>
@@ -146,6 +154,21 @@ function renderMovies(movie) {
     `
 }
 
+function handleShowFavoriteMovies(event) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {        
+        movieList.innerHTML = "";
+        favoritedMovies.forEach(movie => renderMovies(movie));
+        
+        favoriteMovieAction(favoritedMovies);
+
+    } else {
+        movieList.innerHTML = "";
+        showPopularMovies();
+    }
+}
+
 // consume a api toda vez que a janela é carregada
 window.addEventListener("load", async () => {
     await showPopularMovies();
@@ -162,6 +185,8 @@ inputPesquisar.addEventListener("keyup", async (evt) => {
             movieList.innerHTML = "";
             await showPopularMovies();
         }
+
+        checkboxMostrarFavoritos.checked = false;
     } 
 })
 
@@ -172,3 +197,5 @@ inputPesquisar.addEventListener("focusout", async () => {
         await showPopularMovies();  
     }
 })
+
+checkboxMostrarFavoritos.addEventListener("click", handleShowFavoriteMovies);
