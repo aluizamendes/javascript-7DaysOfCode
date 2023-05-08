@@ -5,7 +5,7 @@ const inputPesquisar = document.getElementById("pesquisar");
 const checkboxShowFavorites = document.getElementById("mostrarFavoritos");
 const favoritedMovies =  JSON.parse(localStorage.getItem("favoritos")) || [];
 
-function setToLocalStorage(movies) {
+function saveFavoritesToLocalStorage(movies) {
     localStorage.setItem("favoritos", JSON.stringify(movies));
 }
 
@@ -71,7 +71,7 @@ function favoriteMovieAction(arrMovies) {
                 
                 // deleta do array e do local storage
                 favoritedMovies.splice(indexMovieRemove, 1);
-                setToLocalStorage(favoritedMovies);
+                saveFavoritesToLocalStorage(favoritedMovies);
 
             } else {
                 heartIcon.src = "assets/heart-fill-icon.svg";
@@ -79,7 +79,7 @@ function favoriteMovieAction(arrMovies) {
     
                 // adiciona o filme correspondente na lista de favoritos
                 favoritedMovies.push(movieSelected);
-                setToLocalStorage(favoritedMovies);
+                saveFavoritesToLocalStorage(favoritedMovies);
             }
         })
     });
@@ -129,16 +129,14 @@ function updateMovieList(movies) {
 
 async function showSearchedMovies() {
     const searchedMovies = await getSearchedMovieAPI(inputPesquisar.value);
-
     cleanMovieList();
     updateMovieList(searchedMovies);  
 }
 
-async function showPopularMovies() {    
-    const popularMovies = await getPopularMoviesAPI();
-
-    updateMovieList(popularMovies);
-}
+function showPopularMovies() {  
+    const movies = JSON.parse(localStorage.getItem("popularMovies"));
+    updateMovieList(movies);
+ }
 
 function handleShowFavoriteMovies(event) {
     const isChecked = event.target.checked;
@@ -161,7 +159,7 @@ inputPesquisar.addEventListener("keyup", async (event) => {
 
         if (inputPesquisar.value == "") {
             cleanMovieList();
-            await showPopularMovies();
+            showPopularMovies();
         }
 
         checkboxShowFavorites.checked = false;
@@ -170,7 +168,14 @@ inputPesquisar.addEventListener("keyup", async (event) => {
 
 checkboxShowFavorites.addEventListener("click", handleShowFavoriteMovies);
 
-// consume a api toda vez que a janela é carregada
 window.addEventListener("load", async () => {
-    await showPopularMovies();
+    
+    // consume a api quando a janela é carregada
+    const popularMovies = await getPopularMoviesAPI();
+
+    // salva a lista de filmes da resposta da api no cache e mostra na tela
+    // não precisar fazer uma requisição toda vez que quiser exibir os filmes populares
+    localStorage.setItem("popularMovies", JSON.stringify(popularMovies));
+    console.log("Filmes populares atualizados.");
+    showPopularMovies();
 });
