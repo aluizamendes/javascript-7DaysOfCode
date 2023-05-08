@@ -39,15 +39,21 @@ header {
     gap: 30px;
 }
 
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 .input_field {
     position: relative;
 }
 
 #pesquisar {
     background: #ffffff34;
-    padding: 20px 24px;
+    padding: 20px 82px 20px 24px;
     border: none;
-    outline: none;
+    outline: transparent;
     border-radius: 8px;
     font: 500 18px 'Kumbh Sans';
     color: var(--white-clr);
@@ -58,10 +64,21 @@ header {
     color: #8A8A8A;
 }
 
-.input_field img {
+#pesquisar:focus {
+    outline: 2px solid #ffffff83;
+}
+
+.btn-pesquisar {
     position: absolute;
-    right: 25px;
-    top: 20px;
+    right: 20px;
+    top: 9px;
+    padding: 10px 12px;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.btn-pesquisar:hover {
+    background-color: #ffffff15;
 }
 
 .checkbox_field {
@@ -70,15 +87,17 @@ header {
     gap: 10px;
 }
 
-.checkbox_field input {
+#mostrarFavoritos {
     accent-color: var(--accent-clr);
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 .checkbox_field label {
     font: 600 18px 'Kumbh Sans';
     color: var(--white-clr);
+    cursor: pointer;
 }
 
 section {
@@ -144,14 +163,13 @@ section {
     color: var(--white-clr);
 }
 
-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-
+.btn-favoritar {
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 8px 18px;
+    border-radius: 40px;
+    background-color: #ffffff13;
 }
 
 .movie_description {

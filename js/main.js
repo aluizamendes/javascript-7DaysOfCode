@@ -108,7 +108,7 @@ function renderMovies(movie) {
                     <span id="movieRating">${movie.vote_average}</span>
                 </div>
                 <div class="movie_actionBox" >
-                    <button id="btnFavoritar">                        
+                    <button id="btnFavoritar" class="btn-favoritar">                        
                         <img id="heartIcon" src="${isFavorite ? "assets/heart-fill-icon.svg" : "assets/heart-icon.svg"}">
                         <span>${isFavorite ? "Desfavoritar" : "Favoritar"}</span>
                     </button>
