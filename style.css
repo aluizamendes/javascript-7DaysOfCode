@@ -47,6 +47,7 @@ button {
 
 .input_field {
     position: relative;
+    width: 50%;
 }
 
 #pesquisar {
@@ -57,7 +58,7 @@ button {
     border-radius: 8px;
     font: 500 18px 'Kumbh Sans';
     color: var(--white-clr);
-    width: 630px;
+    width: 100%;
 }
 
 #pesquisar::placeholder {
@@ -180,4 +181,14 @@ section {
     font: 400 16px 'Kumbh Sans';
     line-height: 30px;
     color: var(--grey-clr);
+}
+
+@media (max-width: 820px) {
+    .movie_item {
+        flex-direction: column;
+    }
+
+    .input_field {
+        width: 90%;
+    }
 }
