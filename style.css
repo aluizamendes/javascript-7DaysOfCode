@@ -59,6 +59,7 @@ button {
     font: 500 18px 'Kumbh Sans';
     color: var(--white-clr);
     width: 100%;
+    transition: background .3s;
 }
 
 #pesquisar::placeholder {
@@ -67,6 +68,11 @@ button {
 
 #pesquisar:focus {
     outline: 2px solid #ffffff83;
+    background: #ffffff3f;
+}
+
+#pesquisar:hover {
+    background: #ffffff3f;
 }
 
 .btn-pesquisar {
