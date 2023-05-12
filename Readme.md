@@ -10,8 +10,11 @@ Consumindo a API de filmes do 'The Movie DataBase' e criando uma página HTML de
 
 ## Demonstração
 
-<img src="https://raw.githubusercontent.com/aluizamendes/javascript-7DaysOfCode/main/assets/preview/desktop-1.gif">
+<img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/desktop-1.gif?raw=true">
+<div style="height: 24px;"></div>
+<div style="display: flex; justify-content: space-between; ">
+    <img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-1.png?raw=true" width="320">
+    <img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-3.png?raw=true" width="320">
+    <img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-2.png?raw=true" width="320">    
+</div>
 
-<img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-1.png">
-<img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-2.png">
-<img src="https://github.com/aluizamendes/javascript-7DaysOfCode/blob/main/assets/preview/mobile-3.png">
