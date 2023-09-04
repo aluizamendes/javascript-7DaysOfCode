@@ -1,14 +1,12 @@
 import { getPopularMoviesAPI, getSearchedMovieAPI } from "./apiFunctions.js";
+import { Storage } from "./utils/Storage.js";
 
 const movieList = document.getElementById("movieList");
 const searchInput = document.getElementById("pesquisar");
 const checkboxShowFavorites = document.getElementById("mostrarFavoritos");
 const searchBtn = document.getElementById("searchBtn");
-const favoritedMovies =  JSON.parse(localStorage.getItem("favoritos")) || [];
 
-function saveFavoritesToLocalStorage(movies) {
-    localStorage.setItem("favoritos", JSON.stringify(movies));
-}
+const favoritedMovies =  Storage.getItems("favoritos") || [];
 
 function cleanMovieList() {
     movieList.innerHTML = "";
@@ -77,7 +75,7 @@ function favoriteMovieAction(arrMovies) {
                 
                 // deleta do array e do local storage
                 favoritedMovies.splice(indexMovieRemove, 1);
-                saveFavoritesToLocalStorage(favoritedMovies);
+                Storage.save("favorites", favoritedMovies);
 
             } else {
                 heartIcon.src = favoriteState.favorited;
@@ -85,7 +83,7 @@ function favoriteMovieAction(arrMovies) {
     
                 // adiciona o filme correspondente na lista de favoritos
                 favoritedMovies.push(movieSelected);
-                saveFavoritesToLocalStorage(favoritedMovies);
+                Storage.save("favorites", favoritedMovies);
             }
         })
     });
@@ -150,9 +148,9 @@ async function showSearchedMovies() {
 }
 
 function showPopularMovies() {  
-    const movies = JSON.parse(localStorage.getItem("popularMovies"));
+    const movies = Storage.getItems("popularMovies");
     updateMovieList(movies);
- }
+}
 
 function handleShowFavoriteMovies(event) {
     const isChecked = event.target.checked;
@@ -210,7 +208,7 @@ window.addEventListener("load", async () => {
 
     // salva a lista de filmes da resposta da api no cache e mostra na tela
     // não precisar fazer uma requisição toda vez que quiser exibir os filmes populares
-    localStorage.setItem("popularMovies", JSON.stringify(popularMovies));
+    Storage.save("popularMovies", popularMovies);
     console.log("Filmes populares atualizados.");
     showPopularMovies();
 });
