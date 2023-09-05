@@ -1,19 +1,17 @@
-import { getPopularMoviesAPI, getSearchedMovieAPI } from "./apiFunctions.js";
-import { favoriteMovieAction } from "./components/favorite-movie-component.js";
-import { Storage } from "./utils/Storage.js";
+import { Storage } from "../utils/Storage.js";
+import { getSearchedMovieAPI } from "../utils/apiFunctions.js";
+import { cleanMovieList } from "../utils/clean-movie-list.js";
+import MovieList from "./movie-component.js";
 
 const searchInput = document.getElementById("pesquisar");
-const checkboxShowFavorites = document.getElementById("mostrarFavoritos");
 const searchBtn = document.getElementById("searchBtn");
-
-const favoritedMovies =  Storage.getItems("favoritos") || [];
-
+const checkboxShowFavoritesElement = document.getElementById("mostrarFavoritos");
 
 // pesquisar e exibir filmes
 async function showSearchedMovies() {
     const searchedMovies = await getSearchedMovieAPI(searchInput.value);
     cleanMovieList();
-    updateMovieList(searchedMovies);  
+    MovieList.update(searchedMovies);
 }
 
 async function handleSearch(event) {
@@ -22,31 +20,28 @@ async function handleSearch(event) {
     if (eventType == "click") {
         await showSearchedMovies();
 
-        checkboxShowFavorites.checked = false;
+        checkboxShowFavoritesElement.checked = false;
     }
 
     else if (eventType == "keyup") {
-
         if (event.key == "Enter") {
             await showSearchedMovies();
 
-            checkboxShowFavorites.checked = false;
+            checkboxShowFavoritesElement.checked = false;
         }
     }
 
     if (searchInput.value == "") {
         cleanMovieList();
-        showPopularMovies();
+        const popularMovies = Storage.getItems("popularMovies");
+        MovieList.update(popularMovies);
 
-        checkboxShowFavorites.checked = false;
+        checkboxShowFavoritesElement.checked = false;
     }
 
     // o `checkboxShowFavorites.checked = false` certifica de que a lista agora apresentada não é mais dos filmes favoritos, o desmarcando
-
 }
 
 // se o usuário clicar no botão da lupa ou apertar enter no input, fazer pesquisa de filmes
 searchInput.addEventListener("keyup", handleSearch);
 searchBtn.addEventListener("click", handleSearch);
-
-
